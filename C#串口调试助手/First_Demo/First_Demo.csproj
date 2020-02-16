@@ -66,6 +66,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -83,6 +84,7 @@
   <ItemGroup>
     <Content Include="bitbug_favicon.ico" />
     <Content Include="favicon-20181119070317440.ico" />
+    <None Include="UI图片\Tulips.jpg" />
     <Content Include="串口助手.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
