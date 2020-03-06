@@ -117,12 +117,17 @@ namespace First_Demo
         {
             try
             {
+
+
                 if (radioButton1.Checked)//如果接收模式为字符模式
                 {
                     int ilen = serialPort1.BytesToRead;
                     byte[] bytes = new byte[ilen];
                     serialPort1.Read(bytes, 0, ilen);
                     string xx = System.Text.Encoding.Default.GetString(bytes);
+
+                    if (checkBox1.Checked && xx.IndexOf("*****") != -1)textBox2_Output.Text = ""; // 遇到 * 号自动清空功能。
+
                     textBox2_Output.AppendText(xx);//添加内容
                 }
                 else
