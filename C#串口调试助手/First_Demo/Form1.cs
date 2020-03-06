@@ -147,7 +147,7 @@ namespace First_Demo
         {
             comboBox1.Items.Clear();
             string Buffer;
-            for (int i = 1; i < 20; i++)
+            for (int i = 1; i < 50/*20*/; i++)
             {
                 try
                 {
