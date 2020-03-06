@@ -25,15 +25,15 @@ namespace First_Demo
         /// <param name="e"></param>
         private void Form1_Load(object sender, EventArgs e)
         {
-            comboBox2.Text = "9600";
+            comboBox2.Text = "115200";
             //清空接收区、发送、清空、发送框、接收框不可用
             button3.Enabled = false;
             button4.Enabled = false;
             button5.Enabled = false;
-            textBox1.Enabled = false;
-            textBox2.Enabled = false;
+            textBox1_Input.Enabled = false;
+            textBox2_Output.Enabled = false;
             Search_Port(serialPort1, comboBox1);
-            comboBox1.Text = "COM1";
+            comboBox1.Text = "COM25";
             //手动添加的事件处理函数
             serialPort1.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);
         }
@@ -59,7 +59,7 @@ namespace First_Demo
                     //清空接收区、发送、清空、发送框、接收框不可用
                     button3.Enabled = false;
                     button4.Enabled = false;
-                    textBox1.Enabled = false;
+                    textBox1_Input.Enabled = false;
                     //扫描可用
                     button1.Enabled = true;
                     //端口号可用
@@ -86,8 +86,8 @@ namespace First_Demo
                 button3.Enabled = true;
                 button4.Enabled = true;
                 button5.Enabled = true;
-                textBox1.Enabled = true;
-                textBox2.Enabled = true;
+                textBox1_Input.Enabled = true;
+                textBox2_Output.Enabled = true;
             }
             catch
             {
@@ -97,8 +97,8 @@ namespace First_Demo
                 button3.Enabled = false;
                 button4.Enabled = false;
                 button5.Enabled = false;
-                textBox1.Enabled = false;
-                textBox2.Enabled = false;
+                textBox1_Input.Enabled = false;
+                textBox2_Output.Enabled = false;
                 //扫描可用
                 button1.Enabled = true;
                 //端口号可用
@@ -123,7 +123,7 @@ namespace First_Demo
                     byte[] bytes = new byte[ilen];
                     serialPort1.Read(bytes, 0, ilen);
                     string xx = System.Text.Encoding.Default.GetString(bytes);
-                    textBox2.AppendText(xx);//添加内容
+                    textBox2_Output.AppendText(xx);//添加内容
                 }
                 else
                 {
@@ -131,7 +131,7 @@ namespace First_Demo
                     byte data;
                     data = (byte)serialPort1.ReadByte();//此处需要强制类型转换，将(int)类型数据转换为(byte类型数据，不必考虑是否会丢失数据
                     string str = Convert.ToString(data, 16).ToUpper();//转换为大写十六进制字符串
-                    textBox2.AppendText("0x" + (str.Length == 1 ? "0" + str : str) + " ");//空位补“0”   
+                    textBox2_Output.AppendText("0x" + (str.Length == 1 ? "0" + str : str) + " ");//空位补“0”   
                 }
             }
             catch
@@ -178,14 +178,14 @@ namespace First_Demo
         private void button3_Click(object sender, EventArgs e)
         {
             byte[] Data = new byte[1];
-            if (textBox1.Text != "")
+            if (textBox1_Input.Text != "")
             {
                 if (radioButton3.Checked)//如果发送模式是字符模式
                 {
                     try
                     {
                         Encoding gb = System.Text.Encoding.GetEncoding("gb2312");
-                        byte[] bytes = gb.GetBytes(textBox1.Text);
+                        byte[] bytes = gb.GetBytes(textBox1_Input.Text);
                         serialPort1.Write(bytes, 0, bytes.Length);                     
                     }
                     catch
@@ -195,17 +195,17 @@ namespace First_Demo
                 }
                 else   //发送的是十六进制数据
                 {
-                    for (int i = 0; i < (textBox1.Text.Length - 1) / 2; i++)//对两个字符进行处理，剩下的一个单独处理
+                    for (int i = 0; i < (textBox1_Input.Text.Length - 1) / 2; i++)//对两个字符进行处理，剩下的一个单独处理
                     {
                         //Substring(a,b); 
                         //a:开始字符
                         //b:需要截取的字符串的长度
-                        Data[0] = Convert.ToByte(textBox1.Text.Substring(i * 2, 2), 16);
+                        Data[0] = Convert.ToByte(textBox1_Input.Text.Substring(i * 2, 2), 16);
                         serialPort1.Write(Data, 0, 1);//循环发送（如果输入字符为0A0BB,则只发送0A,0B）
                     }
-                    if (textBox1.Text.Length % 2 != 0)//剩下一位单独处理
+                    if (textBox1_Input.Text.Length % 2 != 0)//剩下一位单独处理
                     {
-                        Data[0] = Convert.ToByte(textBox1.Text.Substring(textBox1.Text.Length - 1, 1), 16);//单独发送B（0B）
+                        Data[0] = Convert.ToByte(textBox1_Input.Text.Substring(textBox1_Input.Text.Length - 1, 1), 16);//单独发送B（0B）
                         serialPort1.Write(Data, 0, 1);//发送
                     }
                 }
@@ -222,13 +222,13 @@ namespace First_Demo
         /// <param name="e"></param>
         private void button5_Click(object sender, EventArgs e)
         {
-            if (textBox2.Text == "")//已经没有数据
+            if (textBox2_Output.Text == "")//已经没有数据
             {
                 MessageBox.Show("请不要重复清空", "提示");
             }
             else
             {
-                textBox2.Text = "";
+                textBox2_Output.Text = "";
             }
         }
         /// <summary>
@@ -238,13 +238,13 @@ namespace First_Demo
         /// <param name="e"></param>
         private void button4_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == "")//已经没有数据
+            if (textBox1_Input.Text == "")//已经没有数据
             {
                 MessageBox.Show("请不要重复清空", "提示");
             }
             else
             {
-                textBox1.Text = "";
+                textBox1_Input.Text = "";
             }
         }
     }
