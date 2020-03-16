@@ -229,7 +229,7 @@ namespace First_Demo
         {
             if (textBox2_Output.Text == "")//已经没有数据
             {
-                MessageBox.Show("请不要重复清空", "提示");
+                //MessageBox.Show("请不要重复清空", "提示");
             }
             else
             {
